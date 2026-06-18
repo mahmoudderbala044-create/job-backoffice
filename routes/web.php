@@ -4,7 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\Job_vacancyController;
+use App\Http\Controllers\Job_VacancyController;
 use App\Http\Controllers\Job_CategoryController;
 use App\Http\Controllers\Job_ApplicationController;
 use App\Http\Controllers\UserController;
@@ -18,8 +18,8 @@ Route::middleware(['auth', 'role:admin,company-owner'])->group(function () {
 
     
     
-    Route::resource('job-vacancy', Job_vacancyController::class);
-    Route::post('job-vacancy/restore/{id}', [Job_vacancyController::class, 'restore'])->name('job-vacancy.restore');
+    Route::resource('job-vacancy', Job_VacancyController::class);
+    Route::post('job-vacancy/restore/{id}', [Job_VacancyController::class, 'restore'])->name('job-vacancy.restore');
 
   
     

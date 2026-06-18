@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class Job_vacancyCreateRequest extends FormRequest
+class Job_VacancyCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

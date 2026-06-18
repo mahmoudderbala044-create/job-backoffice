@@ -6,7 +6,7 @@ use App\Models\Company;
 use App\Models\Job_Application;
 use App\Models\Resume;
 use App\Models\Job_Category;
-use App\Models\Job_vacancy;
+use App\Models\Job_Vacancy;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -66,7 +66,7 @@ class DatabaseSeeder extends Seeder
         $jobcategory = Job_Category::where('name',$job['category'])->firstOrFail();
         $company = Company::where('name',$job['company'])->firstOrFail();
 
-        Job_vacancy::firstOrCreate([
+        Job_Vacancy::firstOrCreate([
             'title'=>$job['title'],
             'description'=>$job['description'],
             'location'=>$job['location'],
@@ -81,7 +81,7 @@ class DatabaseSeeder extends Seeder
         $applicationsData = json_decode(file_get_contents(__DIR__ . '/../data/job_applications.json'), true);
 
         foreach ($applicationsData['job_applications'] as $app) {
-            $jobvacncy = Job_vacancy::inRandomOrder()->first();
+            $jobvacncy = Job_Vacancy::inRandomOrder()->first();
 
             $jobapplicant = User::firstOrCreate(
                 ['email'=>fake()->unique()->safeEmail()],
