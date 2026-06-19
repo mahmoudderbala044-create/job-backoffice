@@ -3,10 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Company;
-use App\Models\Job_Application;
+use App\Models\JobApplication;
 use App\Models\Resume;
-use App\Models\Job_Category;
-use App\Models\Job_Vacancy;
+use App\Models\JobCategory;
+use App\Models\JobVacancy;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
         $jobData =  json_decode(file_get_contents(__DIR__ . '/../data/job_data.json'), true);
 
         foreach ($jobData['job_categories'] as $category) {
-           Job_Category::firstOrCreate(['name'=>$category]);
+           JobCategory::firstOrCreate(['name'=>$category]);
         }
 
         foreach ($jobData['companies'] as $company) {
@@ -63,10 +63,10 @@ class DatabaseSeeder extends Seeder
 
     foreach ($jobData['job_vacancies'] as $job) {
 
-        $jobcategory = Job_Category::where('name',$job['category'])->firstOrFail();
+        $jobcategory = JobCategory::where('name',$job['category'])->firstOrFail();
         $company = Company::where('name',$job['company'])->firstOrFail();
 
-        Job_Vacancy::firstOrCreate([
+        JobVacancy::firstOrCreate([
             'title'=>$job['title'],
             'description'=>$job['description'],
             'location'=>$job['location'],
@@ -81,7 +81,7 @@ class DatabaseSeeder extends Seeder
         $applicationsData = json_decode(file_get_contents(__DIR__ . '/../data/job_applications.json'), true);
 
         foreach ($applicationsData['job_applications'] as $app) {
-            $jobvacncy = Job_Vacancy::inRandomOrder()->first();
+            $jobvacncy = JobVacancy::inRandomOrder()->first();
 
             $jobapplicant = User::firstOrCreate(
                 ['email'=>fake()->unique()->safeEmail()],
@@ -105,7 +105,7 @@ class DatabaseSeeder extends Seeder
                 ]
             );
 
-            Job_Application::firstOrCreate([
+            JobApplication::firstOrCreate([
                 'user_id'=>$jobapplicant->id,
                 'resume_id'=>$resume->id,
                 'job_vacancy_id'=>$jobvacncy->id,
