@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Job_Vacancy;
-use App\Models\Job_Category;
+use App\Models\JobVacancy;
+use App\Models\JobCategory;
 use App\Models\Company;
 use App\Http\Requests\Job_VacancyCreateRequest;
 use App\Http\Requests\Job_VacancyEditRequest;
@@ -21,7 +21,7 @@ class JobVacancyController extends Controller
 
     public function index(Request $request)
     {
-        $query = Job_Vacancy::latest();
+        $query = JobVacancy::latest();
         if($request->input('Archive') == 'true'){
             $query->onlyTrashed();
         }
@@ -39,7 +39,7 @@ class JobVacancyController extends Controller
     public function create()
     {
         $types = self::types;
-        $job_categories = Job_Category::all();
+        $job_categories = JobCategory::all();
         $companies = Company::all();
         return view('job-vacancy.create', compact('job_categories', 'companies', 'types'));
     }
@@ -47,13 +47,13 @@ class JobVacancyController extends Controller
     public function store(Job_VacancyCreateRequest $request)
     {
         $validated = $request->validated();
-        Job_Vacancy::create($validated);
+        JobVacancy::create($validated);
         return redirect()->route('job-vacancy.index')->with('success', 'Job Vacancy created successfully');
     }
 
     public function show(string $id)
     {
-        $job_vacancy = Job_Vacancy::findOrFail($id);
+        $job_vacancy = JobVacancy::findOrFail($id);
         
         return view('job-vacancy.show', compact('job_vacancy'));
     }
@@ -61,15 +61,15 @@ class JobVacancyController extends Controller
     public function edit(string $id)
     {
        $types = self::types;
-        $job_vacancy = Job_Vacancy::findOrFail($id);
-        $job_categories = Job_Category::all();
+        $job_vacancy = JobVacancy::findOrFail($id);
+        $job_categories = JobCategory::all();
         $companies = Company::all();
         return view('job-vacancy.edit', compact('job_vacancy', 'job_categories', 'companies', 'types'));
     }
 
     public function update(Job_VacancyEditRequest $request, string $id)
     {
-         $job_vacancy = Job_Vacancy::findOrFail($id);
+         $job_vacancy = JobVacancy::findOrFail($id);
         $job_vacancy->update($request->validated());
 
         if(request()->query('redirectToList')=="true"){
@@ -82,14 +82,14 @@ class JobVacancyController extends Controller
 
     public function destroy(string $id)
     {
-           $job_vacancy = Job_Vacancy::findOrFail($id);
+           $job_vacancy = JobVacancy::findOrFail($id);
         $job_vacancy->delete();
         return redirect()->route('job-vacancy.index')->with('success', 'Job Vacancy deleted successfully.');
     }
 
      public function restore($id)
     {
-        $job_vacancy = Job_Vacancy::onlyTrashed()->findOrFail($id);
+        $job_vacancy = JobVacancy::onlyTrashed()->findOrFail($id);
         $job_vacancy->restore();
         return redirect()->route('job-vacancy.index', ['Archive' => 'true'])->with('success', 'Job Vacancy restored successfully.');
     }

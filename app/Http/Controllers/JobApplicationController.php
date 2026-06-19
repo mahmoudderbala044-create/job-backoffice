@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Job_application;
+use App\Models\JobApplication;
 use App\Models\Company;
 use App\Http\Requests\Job_ApplicationEditRequest;
 
@@ -11,7 +11,7 @@ class JobApplicationController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Job_application::latest();
+        $query = JobApplication::latest();
         if($request->input('Archive') == 'true'){
             $query->onlyTrashed();
         }
@@ -30,13 +30,13 @@ class JobApplicationController extends Controller
 
     public function show(string $id)
     {
-        $job_application = Job_application::findOrFail($id);
+        $job_application = JobApplication::findOrFail($id);
         return view('job-application.show', compact('job_application'));
     }
 
     public function update(Job_ApplicationEditRequest $request, string $id)
     {
-        $job_application = Job_application::findOrFail($id);
+        $job_application = JobApplication::findOrFail($id);
         $job_application->update([
             'status' => $request->status,
         ]);
@@ -45,14 +45,14 @@ class JobApplicationController extends Controller
 
     public function destroy(string $id)
     {
-        $job_application = Job_application::findOrFail($id);
+        $job_application = JobApplication::findOrFail($id);
         $job_application->delete();
         return redirect()->route('job-application.index');
     }
 
      public function restore($id)
     {
-        $job_application = Job_application::onlyTrashed()->findOrFail($id);
+        $job_application = JobApplication::onlyTrashed()->findOrFail($id);
         $job_application->restore();
         return redirect()->route('job-application.index', ['Archive' => 'true'])->with('success', 'Job Application restored successfully.');
     }

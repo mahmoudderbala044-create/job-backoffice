@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Job_Category;
+use App\Models\JobCategory;
 use App\Http\Requests\CategoryCreateRequest;
 use App\Http\Requests\CategoryEditRequest;
 
@@ -11,7 +11,7 @@ class JobCategoryController extends Controller
 {
     public function index(Request $request)
     {
-        $quiery = Job_Category::latest();
+        $quiery = JobCategory::latest();
         if($request->input('Archive') == 'true'){
             $quiery->onlyTrashed();
         }
@@ -27,7 +27,7 @@ class JobCategoryController extends Controller
 
     public function store(CategoryCreateRequest $request)
     {
-        Job_Category::create($request->validated());
+        JobCategory::create($request->validated());
 
         return redirect()->route('category.index')
             ->with('success', 'Category created successfully.');
@@ -40,13 +40,13 @@ class JobCategoryController extends Controller
 
     public function edit(string $id)
     {
-        $category = Job_Category::findOrFail($id);
+        $category = JobCategory::findOrFail($id);
         return view('category.edit', compact('category'));
     }
 
     public function update(CategoryEditRequest $request, string $id)
     {
-        $category = Job_Category::findOrFail($id);
+        $category = JobCategory::findOrFail($id);
         $category->update($request->validated());
 
         return redirect()->route('category.index')
@@ -55,14 +55,14 @@ class JobCategoryController extends Controller
 
     public function destroy(string $id)
     {
-        $category = Job_Category::findOrFail($id);
+        $category = JobCategory::findOrFail($id);
         $category->delete();
         return redirect()->route('category.index')->with('success', 'Category deleted successfully.');
     }
 
     public function restore($id)
     {
-        $category = Job_Category::onlyTrashed()->findOrFail($id);
+        $category = JobCategory::onlyTrashed()->findOrFail($id);
         $category->restore();
         return redirect()->route('category.index', ['Archive' => 'true'])->with('success', 'Category restored successfully.');
     }
