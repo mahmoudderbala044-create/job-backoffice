@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Job_Vacancy;
-use App\Models\Job_Application;
+use App\Models\JobVacancy;
+use App\Models\JobApplication;
 use App\Models\Company;
 
 class DashboardController extends Controller
@@ -20,20 +20,20 @@ class DashboardController extends Controller
                 ->where('role', 'job-seeker')->count();
 
             //total job 
-            $total_job = Job_Vacancy::whereNull('deleted_at')->count();
+            $total_job = JobVacancy::whereNull('deleted_at')->count();
 
             //total application
-            $total_application = Job_Application::whereNull('deleted_at')->count();
+            $total_application = JobApplication::whereNull('deleted_at')->count();
 
             //Most Applied Jobs
-            $most_applied_jobs = Job_Vacancy::withCount('job_applications')
+            $most_applied_jobs = JobVacancy::withCount('job_applications')
                 ->whereNull('deleted_at')
                 ->orderByDesc('job_applications_count')
                 ->limit(5)
                 ->get();
 
             //Top Converting Job Posts
-            $converting = Job_Vacancy::withCount('job_applications as tottalcount')
+            $converting = JobVacancy::withCount('job_applications as tottalcount')
                 ->having('tottalcount', '>', 0)
                 ->whereNull('deleted_at')
                 ->orderByDesc('tottalcount')
@@ -60,15 +60,15 @@ class DashboardController extends Controller
               ->where('role', 'job-seeker')->count();
 
             //total job 
-            $total_job = Job_Vacancy::where('company_id', $company->id)->whereNull('deleted_at')->count();
+            $total_job = JobVacancy::where('company_id', $company->id)->whereNull('deleted_at')->count();
 
             //total application
-            $total_application = Job_Application::whereHas('job_vacancy', function($q) use ($company) {
+            $total_application = JobApplication::whereHas('job_vacancy', function($q) use ($company) {
                 $q->where('company_id', $company->id)->whereNull('deleted_at');
             })->count();
 
             //Most Applied Jobs
-            $most_applied_jobs = Job_Vacancy::withCount('job_applications')
+            $most_applied_jobs = JobVacancy::withCount('job_applications')
                 ->where('company_id', $company->id)
                 ->whereNull('deleted_at')
                 ->orderByDesc('job_applications_count')
@@ -76,7 +76,7 @@ class DashboardController extends Controller
                 ->get();
 
             //Top Converting Job Posts
-            $converting = Job_Vacancy::withCount('job_applications as tottalcount')
+            $converting = JobVacancy::withCount('job_applications as tottalcount')
                 ->having('tottalcount', '>', 0)
                 ->where('company_id', $company->id)
                 ->whereNull('deleted_at')

@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\JobVacancy;
 use App\Models\JobCategory;
 use App\Models\Company;
-use App\Http\Requests\Job_VacancyCreateRequest;
-use App\Http\Requests\Job_VacancyEditRequest;
+use App\Http\Requests\JobVacancyCreateRequest;
+use App\Http\Requests\JobVacancyEditRequest;
 
 class JobVacancyController extends Controller
 {
@@ -44,7 +44,7 @@ class JobVacancyController extends Controller
         return view('job-vacancy.create', compact('job_categories', 'companies', 'types'));
     }
 
-    public function store(Job_VacancyCreateRequest $request)
+    public function store(JobVacancyCreateRequest $request)
     {
         $validated = $request->validated();
         JobVacancy::create($validated);
@@ -67,7 +67,7 @@ class JobVacancyController extends Controller
         return view('job-vacancy.edit', compact('job_vacancy', 'job_categories', 'companies', 'types'));
     }
 
-    public function update(Job_VacancyEditRequest $request, string $id)
+    public function update(JobVacancyEditRequest $request, string $id)
     {
          $job_vacancy = JobVacancy::findOrFail($id);
         $job_vacancy->update($request->validated());

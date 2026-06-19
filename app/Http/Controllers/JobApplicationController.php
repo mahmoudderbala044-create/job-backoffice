@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\JobApplication;
 use App\Models\Company;
-use App\Http\Requests\Job_ApplicationEditRequest;
+use App\Http\Requests\JobApplicationEditRequest;
 
 class JobApplicationController extends Controller
 {
@@ -34,7 +34,7 @@ class JobApplicationController extends Controller
         return view('job-application.show', compact('job_application'));
     }
 
-    public function update(Job_ApplicationEditRequest $request, string $id)
+    public function update(JobApplicationEditRequest $request, string $id)
     {
         $job_application = JobApplication::findOrFail($id);
         $job_application->update([
