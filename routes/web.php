@@ -1,12 +1,11 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\Job_VacancyController;
-use App\Http\Controllers\Job_CategoryController;
-use App\Http\Controllers\Job_ApplicationController;
+use App\Http\Controllers\JobVacancyController;
+use App\Http\Controllers\JobCategoryController;
+use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\UserController;
 
  
@@ -18,13 +17,13 @@ Route::middleware(['auth', 'role:admin,company-owner'])->group(function () {
 
     
     
-    Route::resource('job-vacancy', Job_VacancyController::class);
-    Route::post('job-vacancy/restore/{id}', [Job_VacancyController::class, 'restore'])->name('job-vacancy.restore');
+    Route::resource('job-vacancy', JobVacancyController::class);
+    Route::post('job-vacancy/restore/{id}', [JobVacancyController::class, 'restore'])->name('job-vacancy.restore');
 
   
     
-    Route::resource('job-application', Job_ApplicationController::class);
-    Route::post('job-application/restore/{id}', [Job_ApplicationController::class, 'restore'])->name('job-application.restore');
+    Route::resource('job-application', JobApplicationController::class);
+    Route::post('job-application/restore/{id}', [JobApplicationController::class, 'restore'])->name('job-application.restore');
 
 
 
@@ -51,8 +50,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('user', UserController::class);
     Route::post('user/restore/{id}', [UserController::class, 'restore'])->name('user.restore');
 
-    Route::resource('category', Job_CategoryController::class);
-    Route::post('category/restore/{id}', [Job_CategoryController::class, 'restore'])->name('category.restore');
+    Route::resource('category', JobCategoryController::class);
+    Route::post('category/restore/{id}', [JobCategoryController::class, 'restore'])->name('category.restore');
 
     Route::resource('company', CompanyController::class);
     Route::post('company/restore/{id}', [CompanyController::class, 'restore'])->name('company.restore');
